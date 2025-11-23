@@ -9,12 +9,11 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 public interface AuthorMapper {
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "books", source = "books", ignore = true)
     AuthorEntity authorDtoToAuthor(AuthorCreateDto authorDto);
 
-    @Mapping(target = "books", source = "books", ignore = true)
+
     AuthorEntity authorUppDtoToAuthor(AuthorUppDto authorDto);
 
-    @Mapping(target = "books", source = "books", ignore = true)
     AuthorUppDto authorDtoToAuthorUppDto(AuthorEntity authorEntity);
+
 }

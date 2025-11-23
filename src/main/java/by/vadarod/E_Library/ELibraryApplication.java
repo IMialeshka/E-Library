@@ -101,14 +101,12 @@ public class ELibraryApplication {
         AuthorUppDto authorUppDto1 = authorService.getById(1);
         authorUppDtoList.add(authorUppDto1);
         bookCreateDto.setAuthors(authorUppDtoList);
-        bookCreateDto.setPathFile("book1.pdf");
         bookService.saveBook(bookCreateDto);
 
         BookCreateDto bookCreateDto1 = new BookCreateDto();
         bookCreateDto1.setName("book2");
         bookCreateDto1.setGenre(Genre.ROMANCE);
         bookCreateDto1.setAuthors(authorUppDtoList);
-        bookCreateDto1.setPathFile("book2.pdf");
         bookService.saveBook(bookCreateDto1);
 
         System.out.println("=======================================================================");
@@ -128,6 +126,9 @@ public class ELibraryApplication {
         reviewCreateDto2.setText("22222222222222222222222222222222");
         reviewCreateDto2.setRating((short) 5);
         reviewService.saveReview(reviewCreateDto2);
+
+        System.out.println("================================11111=======================================");
+        bookService.getGenreBooks(Genre.HORROR).forEach(genre -> {System.out.println("Genre: " + genre.getName());});
 
 	}
 

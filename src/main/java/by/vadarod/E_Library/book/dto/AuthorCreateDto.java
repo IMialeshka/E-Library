@@ -4,10 +4,29 @@ import lombok.*;
 
 import java.util.List;
 
-@Getter
-@Setter
+
 @NoArgsConstructor
 public class AuthorCreateDto {
+    @Getter
+    @Setter
     private String name;
     private List<BookUppDto> books;
+
+    public List<BookUppDto> getBooks() {
+        if (books != null) {
+            books.forEach(bookUppDto -> {
+                bookUppDto.setAuthors(null);
+            });
+        }
+        return books;
+    }
+
+    public void setBooks(List<BookUppDto> books) {
+        if (books != null) {
+            books.forEach(bookUppDto -> {
+                bookUppDto.setAuthors(null);
+            });
+        }
+        this.books = books;
+    }
 }
