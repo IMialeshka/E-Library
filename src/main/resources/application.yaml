@@ -1,0 +1,29 @@
+spring:
+  application:
+   name: E-Library
+  datasource:
+   driver-class-name: org.postgresql.Driver
+   username: postgres
+   url: jdbc:postgresql://localhost:5432/project?currentSchema=e_library
+   password: 19850515
+  jpa:
+   database-platform: org.hibernate.dialect.PostgreSQLDialect
+   show-sql: true
+   hibernate:
+    ddl-auto: create
+management:
+  server:
+    port: 8180
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+    health:
+      show-details: always
+    loggers:
+      enabled: true
+file:
+  upload-dir: D:/E-Library/books
+
+
+

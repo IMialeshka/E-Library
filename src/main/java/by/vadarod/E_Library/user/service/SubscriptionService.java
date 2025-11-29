@@ -17,7 +17,7 @@ public class SubscriptionService {
     private final SubscriptionRepository subscriptionRepository;
     private final SubscriptionMapper subscriptionMapper;
 
-    public List<SubscriptionUppDto> getAllRoles() {
+    public List<SubscriptionUppDto> getAllSubscription() {
         List<SubscriptionEntity> subscriptionEntityList = subscriptionRepository.findAll();
         return subscriptionEntityList.stream().map(subscriptionMapper::subscriptionEntityToSubscriptionUppDto).toList();
 
