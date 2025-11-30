@@ -19,7 +19,7 @@ public class RoleEntity {
     private Long id;
     @Column(nullable = false)
     private String name;
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @OneToMany(fetch = FetchType.LAZY)
     private List<UserEntity> userEntityList;
 
 }

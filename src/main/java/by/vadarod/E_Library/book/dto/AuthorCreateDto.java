@@ -1,5 +1,6 @@
 package by.vadarod.E_Library.book.dto;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.util.List;
@@ -9,6 +10,7 @@ import java.util.List;
 public class AuthorCreateDto {
     @Getter
     @Setter
+    @NotNull
     private String name;
     private List<BookUppDto> books;
 
