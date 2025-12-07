@@ -1,6 +1,7 @@
 package by.vadarod.E_Library.book.dto;
 
 import by.vadarod.E_Library.book.entity.BookEntity;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 

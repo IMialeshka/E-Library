@@ -9,6 +9,7 @@ import by.vadarod.E_Library.user.dto.RoleUppDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
@@ -21,7 +22,8 @@ public class BookController {
     private final BookService bookService;
 
     @PostMapping(value = "/create-book", consumes = "application/json")
-    public ResponseEntity<BookCreateDto> addNewUser (@RequestBody BookCreateDto bookCreateDto){
+    public ResponseEntity<BookCreateDto> addNewUser (
+            @Validated @RequestBody BookCreateDto bookCreateDto){
         bookService.saveBook(bookCreateDto);
         return new ResponseEntity<>(bookCreateDto, HttpStatus.CREATED);
     }

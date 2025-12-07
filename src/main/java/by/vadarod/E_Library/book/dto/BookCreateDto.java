@@ -3,6 +3,7 @@ package by.vadarod.E_Library.book.dto;
 import by.vadarod.E_Library.book.entity.BookFileEntity;
 import by.vadarod.E_Library.book.entity.Genre;
 import by.vadarod.E_Library.user.dto.UserUppDto;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.util.List;
@@ -11,10 +12,12 @@ import java.util.List;
 public class BookCreateDto {
     @Getter
     @Setter
+    @NotNull
     private String name;
     private List<AuthorUppDto> authors;
     @Getter
     @Setter
+    @NotNull
     private Genre genre;
     @Getter
     @Setter

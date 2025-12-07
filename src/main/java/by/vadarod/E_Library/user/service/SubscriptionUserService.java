@@ -12,6 +12,7 @@ import by.vadarod.E_Library.user.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
 import java.util.Calendar;
 import java.util.Date;

@@ -7,6 +7,7 @@ import by.vadarod.E_Library.user.repository.SubscriptionRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
 import java.util.List;
 
@@ -17,7 +18,7 @@ public class SubscriptionService {
     private final SubscriptionRepository subscriptionRepository;
     private final SubscriptionMapper subscriptionMapper;
 
-    public List<SubscriptionUppDto> getAllRoles() {
+    public List<SubscriptionUppDto> getAllSubscription() {
         List<SubscriptionEntity> subscriptionEntityList = subscriptionRepository.findAll();
         return subscriptionEntityList.stream().map(subscriptionMapper::subscriptionEntityToSubscriptionUppDto).toList();
 
