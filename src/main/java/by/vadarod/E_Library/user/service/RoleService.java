@@ -1,6 +1,6 @@
 package by.vadarod.E_Library.user.service;
 
-import by.vadarod.E_Library.exception.model.RoleWithUsers;
+import by.vadarod.E_Library.tools.exception.model.RoleUseWithUsersException;
 import by.vadarod.E_Library.user.dto.RoleCreateDto;
 import by.vadarod.E_Library.user.dto.RoleUppDto;
 import by.vadarod.E_Library.user.entity.RoleEntity;
@@ -30,12 +30,12 @@ public class RoleService {
 
     }
 
-    public void dellById(long id) throws RoleWithUsers {
+    public void dellById(long id) throws RoleUseWithUsersException {
         RoleEntity roleEntity = roleRepository.findById(id).orElse(null);
         if (roleEntity != null) {
             List<UserEntity> userEntityList = userRepository.findByRole(roleEntity);
             if (!userEntityList.isEmpty()) {
-                throw new RoleWithUsers("У роли есть пользователи. Удалите или укажите для них другую роль");
+                throw new RoleUseWithUsersException("У роли есть пользователи. Удалите или укажите для них другую роль");
             } else {
                 roleRepository.deleteById(id);
             }
@@ -48,12 +48,13 @@ public class RoleService {
     }
 
     public void saveRole(RoleCreateDto roleDto) {
-        RoleEntity roleEntity = roleMapper.roleDtoToRole(roleDto);
+        RoleEntity roleEntity = roleMapper.roleDtoToRole(roleDto, userRepository);
         roleRepository.save(roleEntity);
     }
 
     public void saveUppRole(RoleUppDto roleDto) {
-        RoleEntity roleEntity = roleMapper.roleDtoUppToRole(roleDto);
+        RoleEntity roleEntity = roleMapper.roleDtoUppToRole(roleDto, userRepository);
+        roleDto.getUserIdList().forEach(r ->roleEntity.getUserEntityList().add(userRepository.getReferenceById(r)));
         roleRepository.save(roleEntity);
     }
 }

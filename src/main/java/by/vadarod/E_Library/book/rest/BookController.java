@@ -4,11 +4,7 @@ import by.vadarod.E_Library.book.dto.BookCreateDto;
 import by.vadarod.E_Library.book.dto.BookUppDto;
 import by.vadarod.E_Library.book.entity.Genre;
 import by.vadarod.E_Library.book.service.BookService;
-import by.vadarod.E_Library.user.dto.RoleCreateDto;
-import by.vadarod.E_Library.user.dto.RoleUppDto;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,28 +18,28 @@ public class BookController {
     private final BookService bookService;
 
     @PostMapping(value = "/create-book", consumes = "application/json")
-    public ResponseEntity<BookCreateDto> addNewUser (
+    public BookCreateDto addNewUser (
             @Validated @RequestBody BookCreateDto bookCreateDto){
         bookService.saveBook(bookCreateDto);
-        return new ResponseEntity<>(bookCreateDto, HttpStatus.CREATED);
+        return bookCreateDto;
     }
 
     @GetMapping(value = "/author-books/{id}")
-    public ResponseEntity<List<BookUppDto>> getBooksByAuthor (@PathVariable long id){
+    public List<BookUppDto> getBooksByAuthor (@PathVariable long id){
         List<BookUppDto> bookUppDtoList = bookService.getAllBooksAuthor(id);
-        return new ResponseEntity<>(bookUppDtoList, HttpStatus.OK);
+        return bookUppDtoList;
     }
 
     @GetMapping(value = "/genre-books/{genre}")
-    public ResponseEntity<List<BookUppDto>> getBooksByGenre (@PathVariable String genre){
+    public List<BookUppDto> getBooksByGenre (@PathVariable String genre){
         List<BookUppDto> bookUppDtoList = bookService.getGenreBooks(Genre.valueOf(genre.toUpperCase()));
-        return new ResponseEntity<>(bookUppDtoList, HttpStatus.OK);
+        return bookUppDtoList;
     }
 
     @GetMapping(value = "/genres-books/{genres}")
-    public ResponseEntity<List<BookUppDto>> getBooksByGenres (@PathVariable String genres){
+    public List<BookUppDto> getBooksByGenres (@PathVariable String genres){
         List<Genre> genresList = Arrays.stream(genres.split("&")).map(g -> Genre.valueOf(g)).toList();
         List<BookUppDto> bookUppDtoList = bookService.getGenresBooks(genresList);
-        return new ResponseEntity<>(bookUppDtoList, HttpStatus.OK);
+        return bookUppDtoList;
     }
 }

@@ -3,6 +3,7 @@ package by.vadarod.E_Library.user.dto;
 import by.vadarod.E_Library.book.dto.BookUppDto;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import lombok.*;
 
 import java.util.List;
@@ -15,7 +16,7 @@ public class UserCreateDto {
     private String login;
     @NotBlank(message = "Не задан пароль")
     private String password;
-    @NotNull(message = "Не задана роль")
-    private RoleUppDto role;
-    private List<BookUppDto> favorites;
+    @Positive(message = "Не задана роль")
+    private Long roleId;
+    private List<Long> favoritesIdList;
 }

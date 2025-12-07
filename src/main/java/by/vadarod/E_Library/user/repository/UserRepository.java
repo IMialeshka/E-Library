@@ -8,4 +8,6 @@ import java.util.List;
 
 public interface UserRepository extends JpaRepository<UserEntity, Long> {
     public List<UserEntity> findByRole (RoleEntity role);
+    public List<UserEntity> findByLoginIgnoreCaseAndIdNot (String login, Long id);
+    public List<UserEntity> findByLoginIgnoreCase (String login);
 }

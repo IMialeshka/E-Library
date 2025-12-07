@@ -8,9 +8,9 @@ import java.util.Date;
 @Data
 public class SubscriptionUserCreateDto {
     @NotNull(message = "Не заданно значение для пользователя")
-    private UserUppDto user;
+    private Long userId;
     @NotNull(message = "Не заданно значение для подписки")
-    private SubscriptionUppDto subscription;
+    private Long subscriptionId;
     private Date startDate;
     private Date endDate;
 }

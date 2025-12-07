@@ -1,4 +1,4 @@
-package by.vadarod.E_Library.exception.model;
+package by.vadarod.E_Library.tools.exception.model;
 
 import lombok.Data;
 

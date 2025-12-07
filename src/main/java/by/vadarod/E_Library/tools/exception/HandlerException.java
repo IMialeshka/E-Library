@@ -1,7 +1,8 @@
-package by.vadarod.E_Library.exception;
+package by.vadarod.E_Library.tools.exception;
 
-import by.vadarod.E_Library.exception.model.ErrorResponse;
-import by.vadarod.E_Library.exception.model.RoleWithUsers;
+import by.vadarod.E_Library.tools.exception.model.ErrorResponse;
+import by.vadarod.E_Library.tools.exception.model.RoleUseWithUsersException;
+import by.vadarod.E_Library.tools.exception.model.UserLoginException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.ObjectError;
@@ -15,11 +16,19 @@ import java.util.List;
 @ControllerAdvice
 public class HandlerException {
 
-    @ExceptionHandler(RoleWithUsers.class)
-    ResponseEntity<ErrorResponse> roleUser(RoleWithUsers e) {
+    @ExceptionHandler(RoleUseWithUsersException.class)
+    ResponseEntity<ErrorResponse> roleUser(RoleUseWithUsersException e) {
         ErrorResponse errorResponse = new ErrorResponse();
         errorResponse.setMessage(e.getMessage());
         errorResponse.setCode(1);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+    }
+
+    @ExceptionHandler(UserLoginException.class)
+    ResponseEntity<ErrorResponse> userLoginErr(UserLoginException e) {
+        ErrorResponse errorResponse = new ErrorResponse();
+        errorResponse.setMessage(e.getMessage());
+        errorResponse.setCode(2);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
     }
 
