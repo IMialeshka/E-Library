@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -29,5 +30,5 @@ public class UserEntity {
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "favorites", schema = "e_library", joinColumns =  @JoinColumn(name = "user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "book_id", referencedColumnName = "id"))
-    private List<BookEntity> favorites;
+    private List<BookEntity> favorites = new ArrayList<>();
 }

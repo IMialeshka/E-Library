@@ -9,22 +9,19 @@ import by.vadarod.E_Library.user.repository.RoleRepository;
 import by.vadarod.E_Library.user.repository.SubscriptionRepository;
 import by.vadarod.E_Library.user.repository.UserRepository;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MappingRulesForUsersDomain {
-    public static List<UserEntity> mapListIdToListUserEntity(List<Long> idList, UserRepository userRepository) {
-        List<UserEntity> userEntityList = new ArrayList<>();
-        for (Long id : idList) {
-            userEntityList.add(userRepository.findById(id).orElse(null));
-        }
-        return  userEntityList;
+    public static List<UserEntity> mapListIdToListUserEntity(Map<Long, String> users, UserRepository userRepository) {
+        return  userRepository.findByIdIn(users.keySet());
     }
 
-    public static List<Long> mapListEntityToListId(List<UserEntity> userEntityList) {
-        List<Long> idList = new ArrayList<>();
+    public static Map<Long, String> mapListEntityToListId(List<UserEntity> userEntityList) {
+        Map<Long, String> idList = new HashMap<>();
         for (UserEntity user : userEntityList) {
-            idList.add(user.getId());
+            idList.put(user.getId(), user.getName());
         }
         return  idList;
     }
@@ -41,18 +38,14 @@ public class MappingRulesForUsersDomain {
         return subscriptionRepository.findById(id).orElse(null);
     }
 
-    public static List<BookEntity> mapIdListToBookEntityList(List<Long> idList, BookRepository bookRepository) {
-        List<BookEntity> bookEntityList = new ArrayList<>();
-        for (Long id : idList) {
-            bookEntityList.add(bookRepository.findById(id).orElse(null));
-        }
-        return  bookEntityList;
+    public static List<BookEntity> mapIdListToBookEntityList(Map<Long, String> idList, BookRepository bookRepository) {
+        return bookRepository.findByIdIn(idList.keySet());
     }
 
-    public static List<Long> mapIdBookToIdList(List<BookEntity> bookEntities) {
-        List<Long> idList = new ArrayList<>();
+    public static Map<Long, String> mapIdBookToIdList(List<BookEntity> bookEntities) {
+        Map<Long, String> idList = new HashMap<>();
         for (BookEntity book : bookEntities) {
-            idList.add(book.getId());
+            idList.put(book.getId(), book.getName());
         }
         return  idList;
     }

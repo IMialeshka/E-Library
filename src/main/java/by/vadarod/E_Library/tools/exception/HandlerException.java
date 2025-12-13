@@ -1,6 +1,7 @@
 package by.vadarod.E_Library.tools.exception;
 
 import by.vadarod.E_Library.tools.exception.model.ErrorResponse;
+import by.vadarod.E_Library.tools.exception.model.FileLoadingException;
 import by.vadarod.E_Library.tools.exception.model.RoleUseWithUsersException;
 import by.vadarod.E_Library.tools.exception.model.UserLoginException;
 import org.springframework.http.HttpStatus;
@@ -15,6 +16,14 @@ import java.util.List;
 
 @ControllerAdvice
 public class HandlerException {
+
+    @ExceptionHandler(FileLoadingException.class)
+    ResponseEntity<ErrorResponse> handleFileLoadingException(FileLoadingException ex) {
+        ErrorResponse errorResponse = new ErrorResponse();
+        errorResponse.setMessage(ex.getMessage());
+        errorResponse.setCode(3);
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(errorResponse);
+    }
 
     @ExceptionHandler(RoleUseWithUsersException.class)
     ResponseEntity<ErrorResponse> roleUser(RoleUseWithUsersException e) {

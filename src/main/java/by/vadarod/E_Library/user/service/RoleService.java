@@ -54,7 +54,6 @@ public class RoleService {
 
     public void saveUppRole(RoleUppDto roleDto) {
         RoleEntity roleEntity = roleMapper.roleDtoUppToRole(roleDto, userRepository);
-        roleDto.getUserIdList().forEach(r ->roleEntity.getUserEntityList().add(userRepository.getReferenceById(r)));
         roleRepository.save(roleEntity);
     }
 }

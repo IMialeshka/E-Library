@@ -11,8 +11,11 @@ import by.vadarod.E_Library.book.repository.BookRepository;
 import by.vadarod.E_Library.book.repository.ReviewRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 @Service
@@ -26,9 +29,9 @@ public class BookService {
     private final ReviewRepository reviewRepository;
     private final BookFileRepository bookFileRepository;
 
-    public List<BookUppDto> getAllBooks() {
-        List<BookEntity> bookEntitiesList = bookRepository.findAll();
-        return bookEntitiesList.stream().map(bookMapper::bookToBookUppDto).toList();
+    public List<BookUppDto> getAllBooks(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.ASC, "id"));
+        return bookRepository.findAll(pageable).stream().map(bookMapper::bookToBookUppDto).toList();
 
     }
 
@@ -56,19 +59,20 @@ public class BookService {
     }
 
 
-    public List<BookUppDto> getAllBooksAuthor(long id) {
-        List<BookEntity> bookEntitiesList = authorRepository.getReferenceById(id).getBooks();
+    public List<BookUppDto> getAllBooksAuthor(long id, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.ASC, "id"));
+        return bookRepository.findByAuthorsId(id, pageable).stream().map(bookMapper::bookToBookUppDto).toList();
+    }
+
+    public List<BookUppDto> getGenreBooks(Genre genre, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.ASC, "id"));
+        List<BookEntity> bookEntitiesList = bookRepository.findByGenre(genre, pageable);
         return bookEntitiesList.stream().map(bookMapper::bookToBookUppDto).toList();
     }
 
-    public List<BookUppDto> getGenreBooks(Genre genre) {
-        List<BookEntity> bookEntitiesList = bookRepository.findByGenre(genre);
-        return bookEntitiesList.stream().map(bookMapper::bookToBookUppDto).toList();
-    }
-
-    public List<BookUppDto> getGenresBooks(List<Genre> genres) {
-        List<BookEntity> bookEntitiesList = bookRepository.findByGenreIn(genres);
-        return bookEntitiesList.stream().map(bookMapper::bookToBookUppDto).toList();
+    public List<BookUppDto> getGenresBooks(List<Genre> genres, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.ASC, "id"));
+        return bookRepository.findByGenreIn(genres, pageable).stream().map(bookMapper::bookToBookUppDto).toList();
     }
 
 
