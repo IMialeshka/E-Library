@@ -27,6 +27,10 @@ logging:
     org:
       springframework:
         web: info
+jwt:
+  access-token:
+    lifeTime: 60
+  secret-key: RGF5YW5kbmlnaHR0aGVsZWFybmVkY2F0a2VlcHN3YWxraW5nYXJvdW5kdGhlY2hhaW5KV1Q=
 file:
   upload-dir: D:/E-Library/books
 
