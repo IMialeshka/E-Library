@@ -7,6 +7,7 @@ import by.vadarod.E_Library.user.dto.UserCreateDto;
 import by.vadarod.E_Library.user.dto.UserUppDto;
 import by.vadarod.E_Library.user.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 

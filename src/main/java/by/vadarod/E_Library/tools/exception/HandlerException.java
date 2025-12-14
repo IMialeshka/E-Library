@@ -6,6 +6,7 @@ import by.vadarod.E_Library.tools.exception.model.RoleUseWithUsersException;
 import by.vadarod.E_Library.tools.exception.model.UserLoginException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authorization.AuthorizationDeniedException;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -16,6 +17,11 @@ import java.util.List;
 
 @ControllerAdvice
 public class HandlerException {
+
+    @ExceptionHandler(AuthorizationDeniedException.class)
+    public ResponseEntity accessDeniedException(AuthorizationDeniedException e) throws AuthorizationDeniedException {
+        throw e;
+    }
 
     @ExceptionHandler(FileLoadingException.class)
     ResponseEntity<ErrorResponse> handleFileLoadingException(FileLoadingException ex) {

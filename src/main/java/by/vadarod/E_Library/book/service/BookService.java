@@ -12,6 +12,7 @@ import by.vadarod.E_Library.book.repository.ReviewRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
 
 import org.springframework.data.domain.PageRequest;
@@ -35,6 +36,7 @@ public class BookService {
 
     }
 
+    @Secured({"LIBRARIAN"})
     public void dellById(long id) {
         BookEntity bookEntity = bookRepository.findById(id).orElse(null);
 
@@ -48,11 +50,13 @@ public class BookService {
         return bookMapper.bookToBookUppDto(bookRepository.getById(id));
     }
 
+    @Secured({"LIBRARIAN"})
     public void saveBook(BookCreateDto bookCreateDto) {
         BookEntity bookEntity = bookMapper.bookDtoToBook(bookCreateDto, authorRepository, reviewRepository, bookFileRepository);
         bookRepository.save(bookEntity);
     }
 
+    @Secured({"LIBRARIAN"})
     public void saveUppBook(BookUppDto bookUppDto) {
         BookEntity bookEntity = bookMapper.bookUppDtoToBook(bookUppDto, authorRepository, reviewRepository, bookFileRepository);
         bookRepository.save(bookEntity);

@@ -17,11 +17,14 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -36,6 +39,8 @@ public class UserService {
     private final UserMapper userMapper;
 
     private final BookMapper bookMapper;
+
+    private final PasswordEncoder byCryptPasswordEncoder;
 
     public List<UserUppDto> getAllUsers(int pageNumber, int pageSize) {
         Pageable page =  PageRequest.of(pageNumber, pageSize,  Sort.by(Sort.Direction.ASC, "id"));
@@ -53,19 +58,21 @@ public class UserService {
     }
 
     public void saveUser(UserCreateDto userCreateDto) throws UserLoginException {
-        if (!userRepository.findByLoginIgnoreCase(userCreateDto.getLogin()).isEmpty()) {
+        if (userRepository.findByLogin(userCreateDto.getLogin()).isPresent()) {
             throw new UserLoginException("Пользователь с таким логином уже существует");
         } else {
             UserEntity userEntity = userMapper.toUserEntity(userCreateDto, roleRepository, bookRepository);
+            userEntity.setPassword(byCryptPasswordEncoder.encode(userCreateDto.getPassword()));
             userRepository.save(userEntity);
         }
     }
 
     public void saveUppUser(UserUppDto userUppDto) throws UserLoginException {
-        if (!userRepository.findByLoginIgnoreCaseAndIdNot(userUppDto.getLogin(), userUppDto.getId()).isEmpty()) {
+        if (userRepository.findByLoginAndIdNot(userUppDto.getLogin(), userUppDto.getId()).isPresent()) {
             throw new UserLoginException("Пользователь с таким логином уже существует");
         } else {
             UserEntity userEntity = userMapper.toUserUppEntity(userUppDto, roleRepository, bookRepository);
+            userEntity.setPassword(byCryptPasswordEncoder.encode(userUppDto.getPassword()));
             userRepository.save(userEntity);
         }
     }
@@ -93,5 +100,12 @@ public class UserService {
         }
         user.setFavorites(bookEntityList);
         userRepository.save(user);
+    }
+
+    public UserDetails getUserDetails(String userName) {
+        Optional<UserEntity> userEntityList = userRepository.findByLogin(userName);
+
+
+        return userRepository.findByLogin(userName).stream().findFirst().orElse(null);
     }
 }
