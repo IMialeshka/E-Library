@@ -6,7 +6,10 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
 import lombok.*;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Getter
 @Setter
@@ -14,12 +17,12 @@ import java.util.List;
 public class BookCreateDto {
     @NotBlank
     private String name;
-    private List<Long> authorsId;
+    private Map<Long, String> authorsId = new HashMap<>();
     @NotNull
     private Genre genre;
-    private List<Long> bookFilesId;
-    private List<Long> usersId;
-    private List<Long> reviewEntityListId;
+    private List<Long> bookFilesId = new ArrayList<>();
+    private Map<Long, String> usersId = new HashMap<>();
+    private List<ReviewCreateDto> reviewEntityListId = new ArrayList<>();
     @PositiveOrZero
     private double rating;
 

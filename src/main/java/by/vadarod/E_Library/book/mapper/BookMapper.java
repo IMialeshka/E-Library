@@ -6,7 +6,6 @@ import by.vadarod.E_Library.book.entity.BookEntity;
 import by.vadarod.E_Library.book.repository.AuthorRepository;
 import by.vadarod.E_Library.book.repository.BookFileRepository;
 import by.vadarod.E_Library.book.repository.ReviewRepository;
-import by.vadarod.E_Library.user.repository.UserRepository;
 import org.mapstruct.Context;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -19,19 +18,19 @@ public interface BookMapper {
     @Mapping(target = "authors", expression = "java(MappingRulesForBooksDomain.idsToAuthorsList(bookDto.getAuthorsId(), authorRepository))")
     @Mapping(target = "bookFiles", expression = "java(MappingRulesForBooksDomain.idsToFilesList(bookDto.getBookFilesId(), bookFileRepository))")
     @Mapping(target = "users", ignore = true)
-    @Mapping(target = "reviewEntityList", expression = "java(MappingRulesForBooksDomain.idsToReviewList(bookDto.getReviewEntityListId(), reviewRepository))")
+    @Mapping(target = "reviewEntityList", ignore = true)
     BookEntity bookDtoToBook(BookCreateDto bookDto, @Context AuthorRepository authorRepository, @Context ReviewRepository  reviewRepository, @Context BookFileRepository bookFileRepository);
 
     @Mapping(target = "authors", expression = "java(MappingRulesForBooksDomain.idsToAuthorsList(bookDto.getAuthorsId(), authorRepository))")
     @Mapping(target = "bookFiles", expression = "java(MappingRulesForBooksDomain.idsToFilesList(bookDto.getBookFilesId(), bookFileRepository))")
     @Mapping(target = "users", ignore = true)
-    @Mapping(target = "reviewEntityList", expression = "java(MappingRulesForBooksDomain.idsToReviewList(bookDto.getReviewEntityListId(), reviewRepository))")
+    @Mapping(target = "reviewEntityList", ignore = true)
     BookEntity bookUppDtoToBook(BookUppDto bookDto, @Context AuthorRepository authorRepository, @Context ReviewRepository  reviewRepository, @Context BookFileRepository bookFileRepository);
 
     @Mapping(target = "authorsId", expression = "java(MappingRulesForBooksDomain.authorsToIdList(bookEntity.getAuthors()))")
     @Mapping(target = "bookFilesId", expression = "java(MappingRulesForBooksDomain.bookFilesToIdList(bookEntity.getBookFiles()))")
     @Mapping(target = "usersId", ignore = true)
-    @Mapping(target = "reviewEntityListId", expression = "java(MappingRulesForBooksDomain.reviewsToIdList(bookEntity.getReviewEntityList()))")
+    @Mapping(target = "reviewEntityListId", ignore = true)
     BookUppDto bookToBookUppDto(BookEntity bookEntity);
 
 }

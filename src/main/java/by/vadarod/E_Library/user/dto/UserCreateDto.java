@@ -6,7 +6,9 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import lombok.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Data
 public class UserCreateDto {
@@ -18,5 +20,5 @@ public class UserCreateDto {
     private String password;
     @Positive(message = "Не задана роль")
     private Long roleId;
-    private List<Long> favoritesIdList;
+    private Map<Long, String> favoritesIdList = new HashMap<>();
 }

@@ -4,7 +4,8 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 @Getter
 @Setter
@@ -12,5 +13,5 @@ import java.util.List;
 public class AuthorCreateDto {
     @NotBlank
     private String name;
-    private List<Long> booksId;
+    private Map<Long, String> booksId = new HashMap<>();
 }
