@@ -3,11 +3,12 @@ package by.vadarod.E_Library.book.service;
 import by.vadarod.E_Library.book.dto.BookCreateDto;
 import by.vadarod.E_Library.book.dto.BookUppDto;
 import by.vadarod.E_Library.book.entity.BookEntity;
-import by.vadarod.E_Library.book.entity.BookFileEntity;
 import by.vadarod.E_Library.book.entity.Genre;
 import by.vadarod.E_Library.book.mapper.BookMapper;
 import by.vadarod.E_Library.book.repository.AuthorRepository;
+import by.vadarod.E_Library.book.repository.BookFileRepository;
 import by.vadarod.E_Library.book.repository.BookRepository;
+import by.vadarod.E_Library.book.repository.ReviewRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,7 +23,8 @@ public class BookService {
     private final BookRepository bookRepository;
     private final BookFileService bookFileService;
     private final AuthorRepository authorRepository;
-
+    private final ReviewRepository reviewRepository;
+    private final BookFileRepository bookFileRepository;
 
     public List<BookUppDto> getAllBooks() {
         List<BookEntity> bookEntitiesList = bookRepository.findAll();
@@ -31,8 +33,12 @@ public class BookService {
     }
 
     public void dellById(long id) {
-        getById(id).getBookFiles().forEach(bookFileUppDto -> bookFileService.dellFile(bookFileUppDto.getFileName()));
-        bookRepository.deleteById(id);
+        BookEntity bookEntity = bookRepository.findById(id).orElse(null);
+
+        if (bookEntity != null) {
+            bookEntity.getBookFiles().forEach(bookFile -> bookFileService.dellFile(bookFile.getFileName()));
+            bookRepository.deleteById(id);
+        }
     }
 
     public BookUppDto getById(long id) {
@@ -40,12 +46,12 @@ public class BookService {
     }
 
     public void saveBook(BookCreateDto bookCreateDto) {
-        BookEntity bookEntity = bookMapper.bookDtoToBook(bookCreateDto);
+        BookEntity bookEntity = bookMapper.bookDtoToBook(bookCreateDto, authorRepository, reviewRepository, bookFileRepository);
         bookRepository.save(bookEntity);
     }
 
     public void saveUppBook(BookUppDto bookUppDto) {
-        BookEntity bookEntity = bookMapper.bookUppDtoToBook(bookUppDto);
+        BookEntity bookEntity = bookMapper.bookUppDtoToBook(bookUppDto, authorRepository, reviewRepository, bookFileRepository);
         bookRepository.save(bookEntity);
     }
 

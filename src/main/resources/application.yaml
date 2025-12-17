@@ -10,7 +10,7 @@ spring:
    database-platform: org.hibernate.dialect.PostgreSQLDialect
    show-sql: true
    hibernate:
-    ddl-auto: create
+    ddl-auto: update
 management:
   server:
     port: 8180
@@ -22,6 +22,11 @@ management:
       show-details: always
     loggers:
       enabled: true
+logging:
+  level:
+    org:
+      springframework:
+        web: info
 file:
   upload-dir: D:/E-Library/books
 

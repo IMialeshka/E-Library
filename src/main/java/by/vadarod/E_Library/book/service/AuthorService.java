@@ -5,6 +5,7 @@ import by.vadarod.E_Library.book.dto.AuthorUppDto;
 import by.vadarod.E_Library.book.entity.AuthorEntity;
 import by.vadarod.E_Library.book.mapper.AuthorMapper;
 import by.vadarod.E_Library.book.repository.AuthorRepository;
+import by.vadarod.E_Library.book.repository.BookRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,7 @@ import java.util.List;
 public class AuthorService {
     private final AuthorMapper authorMapper;
     private final AuthorRepository authorRepository;
+    private final BookRepository bookRepository;
 
     public List<AuthorUppDto> getAllAuthor() {
         List<AuthorEntity> authorUppDtoList = authorRepository.findAll();
@@ -33,12 +35,12 @@ public class AuthorService {
     }
 
     public void saveAuthor(AuthorCreateDto authorCreateDto) {
-        AuthorEntity authorEntity = authorMapper.authorDtoToAuthor(authorCreateDto);
+        AuthorEntity authorEntity = authorMapper.authorDtoToAuthor(authorCreateDto, bookRepository);
         authorRepository.save(authorEntity);
     }
 
     public void saveUppAuthor(AuthorUppDto authorUppDto) {
-        AuthorEntity authorEntity = authorMapper.authorUppDtoToAuthor(authorUppDto);
+        AuthorEntity authorEntity = authorMapper.authorUppDtoToAuthor(authorUppDto, bookRepository);
         authorRepository.save(authorEntity);
     }
 }

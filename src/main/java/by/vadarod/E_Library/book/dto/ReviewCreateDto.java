@@ -9,10 +9,10 @@ import lombok.Data;
 public class ReviewCreateDto {
 
     @NotNull
-    private UserUppDto user;
+    private long userId;
     @Positive
     private short rating;
     private String text;
     @NotNull
-    private BookUppDto book;
+    private long bookId;
 }

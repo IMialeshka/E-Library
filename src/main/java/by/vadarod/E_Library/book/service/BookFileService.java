@@ -3,9 +3,10 @@ package by.vadarod.E_Library.book.service;
 import by.vadarod.E_Library.book.dto.BookUppDto;
 import by.vadarod.E_Library.book.entity.BookEntity;
 import by.vadarod.E_Library.book.entity.BookFileEntity;
-import by.vadarod.E_Library.book.mapper.BookFileMapper;
 import by.vadarod.E_Library.book.mapper.BookMapper;
+import by.vadarod.E_Library.book.repository.AuthorRepository;
 import by.vadarod.E_Library.book.repository.BookFileRepository;
+import by.vadarod.E_Library.book.repository.ReviewRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,9 +21,10 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class BookFileService {
 
-    private final BookFileMapper bookFileMapper;
     private final BookFileRepository bookFileRepository;
     private final BookMapper bookMapper;
+    private final ReviewRepository reviewRepository;
+    private final AuthorRepository authorRepository;
 
     @Value("${file.upload-dir}")
     private String libraryDir;
@@ -53,7 +55,7 @@ public class BookFileService {
     }
 
     public void uploadFileForBook(BookUppDto bookUppDto, MultipartFile file) {
-        BookEntity bookEntity = bookMapper.bookDtoToBook(bookUppDto);
+        BookEntity bookEntity = bookMapper.bookDtoToBook(bookUppDto,authorRepository, reviewRepository, bookFileRepository);
         BookFileEntity bookFileEntity = new BookFileEntity();
         bookFileEntity.setFileName(uploadFileBook(file));
         bookFileEntity.setBook(bookEntity);

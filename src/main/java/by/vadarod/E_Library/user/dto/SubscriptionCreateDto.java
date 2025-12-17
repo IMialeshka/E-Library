@@ -1,6 +1,8 @@
 package by.vadarod.E_Library.user.dto;
 
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.AssertFalse;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Positive;
 import lombok.*;
 
 
@@ -13,12 +15,12 @@ public class SubscriptionCreateDto {
     private short lengthMonth;
     private int lengthDay;
 
-    @AssertTrue(message = "Длительность должна быть больше или равна нулю нулю")
+    @AssertFalse(message = "Длительность должна быть больше или равна нулю нулю")
     public boolean isValidLength() {
         return lengthMonth <= 0 && lengthDay <= 0;
     }
 
-    @AssertTrue(message = "Укажите длительность ИЛИ в днях ИЛИ в месяцах")
+    @AssertFalse(message = "Укажите длительность ИЛИ в днях ИЛИ в месяцах")
     public boolean isValidLengths() {
         return lengthMonth >= 1 && lengthDay >= 1;
     }

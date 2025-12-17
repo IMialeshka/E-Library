@@ -14,6 +14,5 @@ public class RoleCreateDto {
     @Schema(description = "Наименование роли", example = "reader 1")
     @NotBlank(message = "Не указано наименование роли")
     private String name;
-    private List<UserUppDto> userEntityList;
-
+    private List<Long> userIdList;
 }
