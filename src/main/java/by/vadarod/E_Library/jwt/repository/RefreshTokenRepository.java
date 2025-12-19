@@ -1,0 +1,13 @@
+package by.vadarod.E_Library.jwt.repository;
+
+import by.vadarod.E_Library.jwt.entity.RefreshToken;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.Optional;
+
+public interface RefreshTokenRepository extends JpaRepository<RefreshToken, Long> {
+
+    Optional<RefreshToken> findByUserLogin(String login);
+
+    Optional<RefreshToken> findByToken(String token);
+}

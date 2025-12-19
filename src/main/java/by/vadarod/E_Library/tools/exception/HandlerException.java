@@ -1,9 +1,6 @@
 package by.vadarod.E_Library.tools.exception;
 
-import by.vadarod.E_Library.tools.exception.model.ErrorResponse;
-import by.vadarod.E_Library.tools.exception.model.FileLoadingException;
-import by.vadarod.E_Library.tools.exception.model.RoleUseWithUsersException;
-import by.vadarod.E_Library.tools.exception.model.UserLoginException;
+import by.vadarod.E_Library.tools.exception.model.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authorization.AuthorizationDeniedException;
@@ -22,6 +19,15 @@ public class HandlerException {
     public ResponseEntity accessDeniedException(AuthorizationDeniedException e) throws AuthorizationDeniedException {
         throw e;
     }
+
+    @ExceptionHandler(RefreshTokenException.class)
+    ResponseEntity<ErrorResponse> handleRefreshTokenException(RefreshTokenException ex) {
+        ErrorResponse errorResponse = new ErrorResponse();
+        errorResponse.setMessage(ex.getMessage());
+        errorResponse.setCode(4);
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(errorResponse);
+    }
+
 
     @ExceptionHandler(FileLoadingException.class)
     ResponseEntity<ErrorResponse> handleFileLoadingException(FileLoadingException ex) {

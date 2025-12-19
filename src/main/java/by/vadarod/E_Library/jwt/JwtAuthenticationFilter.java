@@ -1,5 +1,6 @@
 package by.vadarod.E_Library.jwt;
 
+import by.vadarod.E_Library.jwt.service.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -42,7 +43,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 securityContext.setAuthentication(authentication);
                 SecurityContextHolder.setContext(securityContext);
             }
-            filterChain.doFilter(request, response);
         }
 
         filterChain.doFilter(request, response);
