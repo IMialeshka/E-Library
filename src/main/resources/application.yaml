@@ -29,7 +29,9 @@ logging:
         web: info
 jwt:
   access-token:
-    lifeTime: 60
+    lifeTime: 5
+  refresh-token:
+    lifeTime: 15
   secret-key: RGF5YW5kbmlnaHR0aGVsZWFybmVkY2F0a2VlcHN3YWxraW5nYXJvdW5kdGhlY2hhaW5KV1Q=
 file:
   upload-dir: D:/E-Library/books
