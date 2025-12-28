@@ -5,6 +5,9 @@ import by.vadarod.E_Library.user.dto.SubscriptionUserUppDto;
 import by.vadarod.E_Library.user.service.SubscriptionUserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,14 +21,14 @@ public class SubscriptionUserController {
 
 
     @PostMapping(value = "/create_user_subscription", consumes = "application/json")
-    public void createSubscriptionUser (@RequestBody SubscriptionUserCreateDto subscriptionUserCreateDto)
+    public SubscriptionUserUppDto createSubscriptionUser (@Validated @RequestBody SubscriptionUserCreateDto subscriptionUserCreateDto, @AuthenticationPrincipal UserDetails userDetails)
     {
         log.info("Добавляем подписку {} пользователю {}", subscriptionUserCreateDto.getSubscriptionId(), subscriptionUserCreateDto.getUserId());
-        subscriptionUserService.saveSubscriptionUser(subscriptionUserCreateDto);
+        return subscriptionUserService.saveSubscriptionUser(subscriptionUserCreateDto, userDetails.getUsername());
     }
 
-    @GetMapping(value = "/{id}")
-    public List<SubscriptionUserUppDto> getSubscriptionsOfUser(@PathVariable long id) {
-        return subscriptionUserService.getSubscriptionsOfUser(id);
+    @GetMapping(value = "/subscription_of_user")
+    public List<SubscriptionUserUppDto> getSubscriptionsOfUser(@AuthenticationPrincipal UserDetails userDetails) {
+        return subscriptionUserService.getSubscriptionsOfUser(userDetails.getUsername());
     }
 }

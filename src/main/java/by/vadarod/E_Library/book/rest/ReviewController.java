@@ -5,6 +5,9 @@ import by.vadarod.E_Library.book.dto.ReviewUppDto;
 import by.vadarod.E_Library.book.entity.ReviewEntity;
 import by.vadarod.E_Library.book.service.ReviewService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,22 +18,22 @@ import java.util.List;
 public class ReviewController {
     private final ReviewService reviewService;
 
-    @PostMapping(value = "/changes/create_review")
-    public void createReview(@RequestBody ReviewCreateDto reviewCreateDto) {
-        reviewService.saveReview(reviewCreateDto);
+    @PostMapping(value = "/limited/create_review")
+    public void createReview(@Validated @RequestBody ReviewCreateDto reviewCreateDto, @AuthenticationPrincipal UserDetails userDetails) {
+        reviewService.saveReview(reviewCreateDto, userDetails.getUsername());
     }
 
-    @PostMapping(value = "/changes/upp_review")
-    public void uppReview(@RequestBody ReviewUppDto reviewUppDto) {
-        reviewService.saveUppReview(reviewUppDto);
+    @PostMapping(value = "/limited/upp_review")
+    public void uppReview(@Validated @RequestBody ReviewUppDto reviewUppDto, @AuthenticationPrincipal UserDetails userDetails) {
+        reviewService.saveUppReview(reviewUppDto, userDetails.getUsername());
     }
 
-    @PostMapping(value = "/changes/dell_review")
-    public void dellReview(@RequestBody ReviewUppDto reviewUppDto) {
-        reviewService.dellById(reviewUppDto.getId());
+    @PostMapping(value = "/limited/dell_review")
+    public void dellReview(@RequestBody ReviewUppDto reviewUppDto, @AuthenticationPrincipal UserDetails userDetails) {
+        reviewService.dellById(reviewUppDto.getId(), userDetails.getUsername());
     }
 
-    @GetMapping(value = "/read/all_book_reviews/{id}")
+    @GetMapping(value = "/for_all/all_book_reviews/{id}")
     public List<ReviewUppDto> getAllReviews(@PathVariable long id) {
         return reviewService.getBookReviews(id);
     }

@@ -14,8 +14,8 @@ public interface ReviewMapper {
 
     @Mapping(target ="id", ignore = true)
     @Mapping(target = "book", expression = "java(MappingRulesForBooksDomain.idToBook(reviewCreateDto.getBookId(), bookRepository))")
-    @Mapping(target = "user", expression = "java(MappingRulesForBooksDomain.idToUser(reviewCreateDto.getUserId(), userRepository))")
-    ReviewEntity reviewDtoToReview(ReviewCreateDto reviewCreateDto, @Context BookRepository bookRepository, @Context UserRepository userRepository);
+    @Mapping(target = "user", ignore = true)
+    ReviewEntity reviewDtoToReview(ReviewCreateDto reviewCreateDto, @Context BookRepository bookRepository);
 
     @Mapping(target = "book", expression = "java(MappingRulesForBooksDomain.idToBook(reviewUppDto.getBookId(), bookRepository))")
     @Mapping(target = "user", expression = "java(MappingRulesForBooksDomain.idToUser(reviewUppDto.getUserId(), userRepository))")

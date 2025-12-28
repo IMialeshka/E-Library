@@ -15,14 +15,13 @@ import java.util.List;
 public class AuthorController {
     private final AuthorService authorService;
 
-    @PostMapping(value = "/create-author", consumes = "application/json")
-    public AuthorCreateDto addAuthor (
+    @PostMapping(value = "/limited/create-author", consumes = "application/json")
+    public AuthorUppDto addAuthor (
             @Validated @RequestBody AuthorCreateDto authorCreateDto){
-        authorService.saveAuthor(authorCreateDto);
-        return authorCreateDto;
+        return authorService.saveAuthor(authorCreateDto);
     }
 
-    @GetMapping(value = "/author-all")
+    @GetMapping(value = "/for_all/author-all")
     public List<AuthorUppDto> getBooksByAuthor (){
         return authorService.getAllAuthor();
     }

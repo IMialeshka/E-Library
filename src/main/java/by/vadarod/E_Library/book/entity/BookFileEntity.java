@@ -20,6 +20,9 @@ public class BookFileEntity {
     @Column(name = "file_name",nullable = false)
     private String fileName;
 
+    @Column(name = "preview_file_name",nullable = false)
+    private String previewFileName;
+
     @ManyToOne(fetch = FetchType.LAZY)
     private BookEntity book;
 
