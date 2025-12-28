@@ -2,6 +2,7 @@ package by.vadarod.E_Library.tools.logging;
 
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
 import org.springframework.stereotype.Component;
 
@@ -24,13 +25,16 @@ public class LoggingAspect {
         log.info("Вызов метода пользователей: " + joinPoint.getSignature().getName());
     }
 
-    @Before("loggingPointcutBook()")
-    public void beforeControllerBook(JoinPoint joinPoint) {
+    @Around("loggingPointcutBook()")
+    public Object beforeControllerBook(ProceedingJoinPoint joinPoint) throws Throwable {
         log.info("Вызов метода контрллера книг: " + joinPoint.getSignature().getName());
+        Object result = joinPoint.proceed();
+        log.info("Закончил метода контрллера книг: " + joinPoint.getSignature().getName());
+        return result;
     }
 
-    @After("loggingPointcutBook()")
+   /* @After("loggingPointcutBook()")
     public void afterControllerBook(JoinPoint joinPoint) {
         log.info("Закончил метода контрллера книг: " + joinPoint.getSignature().getName());
-    }
+    }*/
 }

@@ -13,8 +13,9 @@ import org.springframework.stereotype.Component;
 @Mapper(componentModel = "spring")
 public interface UserMapper {
     @Mapping(target = "id" , ignore = true)
-    @Mapping(target = "role", expression = "java(MappingRulesForUsersDomain.mapIdToRole(userDto.getRoleId(), roleRepository))")
+    @Mapping(target = "role", ignore = true)
     @Mapping(target = "favorites", expression = "java(MappingRulesForUsersDomain.mapIdListToBookEntityList(userDto.getFavoritesIdList(), bookRepository))")
+
     UserEntity toUserEntity(UserCreateDto userDto, @Context RoleRepository roleRepository, @Context BookRepository bookRepository);
 
     @Mapping(target = "password", constant = "")

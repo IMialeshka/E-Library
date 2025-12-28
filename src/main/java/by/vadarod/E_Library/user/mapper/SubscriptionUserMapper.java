@@ -13,11 +13,11 @@ import org.mapstruct.Mapping;
 public interface SubscriptionUserMapper {
 
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "user", expression = "java(MappingRulesForUsersDomain.mapIdToUser(subscriptionUserDto.getUserId(), userRepository))")
+    @Mapping(target = "user", ignore = true)
     @Mapping(target = "subscription", expression = "java(MappingRulesForUsersDomain.mapIdToSubscription(subscriptionUserDto.getSubscriptionId(), subscriptionRepository))")
     @Mapping(target = "startDate", ignore = true)
     @Mapping(target = "endDate", ignore = true)
-    SubscriptionUserEntity toSubscriptionUserEntity(SubscriptionUserCreateDto subscriptionUserDto, @Context UserRepository userRepository, @Context SubscriptionRepository subscriptionRepository);
+    SubscriptionUserEntity toSubscriptionUserEntity(SubscriptionUserCreateDto subscriptionUserDto, @Context SubscriptionRepository subscriptionRepository);
 
     @Mapping(target = "user", expression = "java(MappingRulesForUsersDomain.mapIdToUser(subscriptionUserUppDto.getUserId(), userRepository))")
     @Mapping(target = "subscription", expression = "java(MappingRulesForUsersDomain.mapIdToSubscription(subscriptionUserUppDto.getSubscriptionId(), subscriptionRepository))")

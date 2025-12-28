@@ -11,7 +11,7 @@ import java.util.Map;
 @Setter
 @NoArgsConstructor
 public class AuthorCreateDto {
-    @NotBlank
+    @NotBlank(message = "Укажите автор")
     private String name;
     private Map<Long, String> booksId = new HashMap<>();
 }

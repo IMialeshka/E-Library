@@ -13,4 +13,5 @@ public interface BookRepository extends JpaRepository<BookEntity, Long> {
     List<BookEntity> findByGenreIn(List<Genre> genreList, Pageable pageable);
     List<BookEntity> findByIdIn(Set<Long> idList);
     List<BookEntity> findByAuthorsId(Long id, Pageable pageable);
+    List<BookEntity> findByRatingGreaterThan(double rating, Pageable pageable);
 }

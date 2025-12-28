@@ -15,15 +15,14 @@ import java.util.Map;
 @Setter
 @NoArgsConstructor
 public class BookCreateDto {
-    @NotBlank
+    @NotBlank(message = "Укажите название книги")
     private String name;
     private Map<Long, String> authorsId = new HashMap<>();
-    @NotNull
+    @NotNull(message = "Укажите жанр")
     private Genre genre;
     private List<Long> bookFilesId = new ArrayList<>();
     private Map<Long, String> usersId = new HashMap<>();
     private List<ReviewCreateDto> reviewEntityListId = new ArrayList<>();
-    @PositiveOrZero
     private double rating;
 
 

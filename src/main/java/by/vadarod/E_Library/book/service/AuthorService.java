@@ -8,6 +8,7 @@ import by.vadarod.E_Library.book.repository.AuthorRepository;
 import by.vadarod.E_Library.book.repository.BookRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,6 +27,7 @@ public class AuthorService {
 
     }
 
+    @Secured({"ADMIN", "LIBRARIAN"})
     public void dellById(long id) {
         authorRepository.deleteById(id);
     }
@@ -34,11 +36,14 @@ public class AuthorService {
         return authorMapper.authorDtoToAuthorUppDto(authorRepository.getById(id));
     }
 
-    public void saveAuthor(AuthorCreateDto authorCreateDto) {
+    @Secured({"ADMIN", "LIBRARIAN"})
+    public AuthorUppDto saveAuthor(AuthorCreateDto authorCreateDto) {
         AuthorEntity authorEntity = authorMapper.authorDtoToAuthor(authorCreateDto, bookRepository);
-        authorRepository.save(authorEntity);
+        AuthorEntity saveAuthor = authorRepository.save(authorEntity);
+        return authorMapper.authorDtoToAuthorUppDto(saveAuthor);
     }
 
+    @Secured({"ADMIN", "LIBRARIAN"})
     public void saveUppAuthor(AuthorUppDto authorUppDto) {
         AuthorEntity authorEntity = authorMapper.authorUppDtoToAuthor(authorUppDto, bookRepository);
         authorRepository.save(authorEntity);

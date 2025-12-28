@@ -9,6 +9,7 @@ import by.vadarod.E_Library.user.repository.SubscriptionRepository;
 import by.vadarod.E_Library.user.repository.SubscriptionUserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,6 +28,7 @@ public class SubscriptionService {
 
     }
 
+    @Secured({"ADMIN"})
     public void dellById(long id) throws SubscriptionWithUsersException {
         SubscriptionUserEntity subscriptionUserEntity = subscriptionUserRepository.findById(id).orElse(null);
         if (subscriptionUserEntity != null) {
@@ -43,12 +45,14 @@ public class SubscriptionService {
         return subscriptionMapper.subscriptionEntityToSubscriptionUppDto(subscriptionRepository.getById(id));
     }
 
+    @Secured({"ADMIN"})
     public SubscriptionCreateDto saveSubscription(SubscriptionCreateDto subscriptionCreateDto) {
         SubscriptionEntity subscriptionEntity = subscriptionMapper.subscriptionDtoToSubscriptionEntity(subscriptionCreateDto);
         subscriptionRepository.save(subscriptionEntity);
         return subscriptionCreateDto;
     }
 
+    @Secured({"ADMIN"})
     public SubscriptionUppDto saveUppSubscription(SubscriptionUppDto subscriptionUppDto) {
         SubscriptionEntity subscriptionEntity = subscriptionMapper.subscriptionDtoToSubscriptionUppDto(subscriptionUppDto);
         subscriptionRepository.save(subscriptionEntity);

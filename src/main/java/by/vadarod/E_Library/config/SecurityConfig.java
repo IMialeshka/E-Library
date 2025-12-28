@@ -38,8 +38,8 @@ public class SecurityConfig {
     public SecurityFilterChain configure(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(
-                        authorizeRequests -> authorizeRequests.requestMatchers("users/**", "roles/**","outh/**", "review/read/**", "oauth/**").permitAll()
-                                .requestMatchers("books/**", "review/changes/**").authenticated())
+                        authorizeRequests -> authorizeRequests.requestMatchers("users/for_all/**", "subscriptions/for_all/**","outh/**", "review/for_all/**", "oauth/**", "author/for_all/**", "books/for_all/**").permitAll()
+                                .requestMatchers("review/limited/**", "roles/**", "users/limited/**", "subscriptions/limited/**", "subscription_user/**", "author/limited/**", "books/limited/**").authenticated())
                 .addFilterBefore(jwtAuthenticationFilter, BasicAuthenticationFilter.class)
                 .exceptionHandling(ex -> {
                     ex.authenticationEntryPoint(new CustomAuthenticationPoint());

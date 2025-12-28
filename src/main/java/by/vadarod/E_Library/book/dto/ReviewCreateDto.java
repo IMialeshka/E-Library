@@ -1,18 +1,14 @@
 package by.vadarod.E_Library.book.dto;
-
-import by.vadarod.E_Library.user.dto.UserUppDto;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PositiveOrZero;
 import lombok.Data;
 
 @Data
 public class ReviewCreateDto {
-
-    @NotNull
     private long userId;
-    @Positive
+    @PositiveOrZero(message = "Райтинг должен быть >= 0")
     private short rating;
     private String text;
-    @NotNull
+    @NotNull(message = "Укажите книгу")
     private long bookId;
 }
