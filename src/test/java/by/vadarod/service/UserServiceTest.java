@@ -1,5 +1,7 @@
 package by.vadarod.service;
 
+import by.vadarod.E_Library.jwt.service.JwtService;
+import by.vadarod.E_Library.jwt.service.RefreshTokenService;
 import by.vadarod.E_Library.tools.exception.model.UserLoginException;
 import by.vadarod.E_Library.user.dto.UserCreateDto;
 import by.vadarod.E_Library.user.entity.RoleEntity;
@@ -32,6 +34,11 @@ public class UserServiceTest {
 
     @Mock
     RoleRepository roleRepository;
+    @Mock
+    JwtService jwtService;
+
+    @Mock
+    RefreshTokenService refreshTokenService;
 
     @InjectMocks
     UserService userService;
@@ -49,6 +56,8 @@ public class UserServiceTest {
         when(userRepository.save(any(UserEntity.class))).thenReturn(new UserEntity());
         when(byCryptPasswordEncoder.encode(any())).thenReturn("password");
         when(roleRepository.getRoleByName(any())).thenReturn(roleEntity);
+        when(jwtService.generateToken(any())).thenReturn("token");
+        when(refreshTokenService.generateRefreshToken(any())).thenReturn("token");
         UserCreateDto userCreateDto = new UserCreateDto();
         userCreateDto.setLogin("admin");
         userCreateDto.setPassword("test");

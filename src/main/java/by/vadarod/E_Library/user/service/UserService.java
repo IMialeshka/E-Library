@@ -4,6 +4,9 @@ import by.vadarod.E_Library.book.dto.BookUppDto;
 import by.vadarod.E_Library.book.entity.BookEntity;
 import by.vadarod.E_Library.book.mapper.BookMapper;
 import by.vadarod.E_Library.book.repository.BookRepository;
+import by.vadarod.E_Library.jwt.model.JwtAuthenticationResponse;
+import by.vadarod.E_Library.jwt.service.JwtService;
+import by.vadarod.E_Library.jwt.service.RefreshTokenService;
 import by.vadarod.E_Library.tools.exception.model.UserLoginException;
 import by.vadarod.E_Library.user.dto.UserCreateDto;
 import by.vadarod.E_Library.user.dto.UserUppDto;
@@ -19,7 +22,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -42,6 +47,9 @@ public class UserService {
     private final BookMapper bookMapper;
 
     private final PasswordEncoder byCryptPasswordEncoder;
+
+    private final JwtService jwtService;
+    private final RefreshTokenService refreshTokenService;
 
     @Secured({"ADMIN", "LIBRARIAN"})
     public List<UserUppDto> getAllUsers(int pageNumber, int pageSize) {
@@ -74,7 +82,7 @@ public class UserService {
         }
     }
 
-    public void saveUser(UserCreateDto userCreateDto) throws UserLoginException {
+    public JwtAuthenticationResponse saveUser(UserCreateDto userCreateDto) throws UserLoginException {
         if (userRepository.findByLogin(userCreateDto.getLogin()).isPresent()) {
             throw new UserLoginException("Пользователь с таким логином уже существует");
         } else {
@@ -83,6 +91,12 @@ public class UserService {
             userEntity.setRole(roleEntity);
             userEntity.setPassword(byCryptPasswordEncoder.encode(userCreateDto.getPassword()));
             userRepository.save(userEntity);
+
+            String jwt = jwtService.generateToken(userEntity);
+            JwtAuthenticationResponse jwtAuthenticationResponse = new JwtAuthenticationResponse();
+            jwtAuthenticationResponse.setAccessToken(jwt);
+            jwtAuthenticationResponse.setRefreshToken(refreshTokenService.generateRefreshToken(userEntity.getLogin()));
+            return jwtAuthenticationResponse;
         }
     }
 

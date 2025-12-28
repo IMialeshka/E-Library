@@ -1,6 +1,7 @@
 package by.vadarod.E_Library.user.rest;
 
 import by.vadarod.E_Library.book.dto.BookUppDto;
+import by.vadarod.E_Library.jwt.model.JwtAuthenticationResponse;
 import by.vadarod.E_Library.tools.exception.model.UserLoginException;
 import by.vadarod.E_Library.user.dto.UserCreateDto;
 import by.vadarod.E_Library.user.dto.UserUppDto;
@@ -32,9 +33,8 @@ public class UserController {
     }
 
     @PostMapping(value = "/for_all/create_reader", consumes = "application/json")
-    public UserCreateDto createReader(@Validated @RequestBody UserCreateDto userCreateDto) throws UserLoginException {
-        userService.saveUser(userCreateDto);
-        return userCreateDto;
+    public JwtAuthenticationResponse createReader(@Validated @RequestBody UserCreateDto userCreateDto) throws UserLoginException {
+        return userService.saveUser(userCreateDto);
     }
 
     @PostMapping(value = "/limited/create_librarian", consumes = "application/json")
