@@ -1,4 +1,4 @@
-package by.vadarod.E_Library.jwt;
+package by.vadarod.E_Library.jwt.service;
 
 import by.vadarod.E_Library.user.entity.UserEntity;
 import io.jsonwebtoken.Claims;

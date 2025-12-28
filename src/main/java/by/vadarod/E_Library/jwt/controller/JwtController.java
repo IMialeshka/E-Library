@@ -1,7 +1,8 @@
-package by.vadarod.E_Library.jwt;
+package by.vadarod.E_Library.jwt.controller;
 
 import by.vadarod.E_Library.jwt.model.JwtAuthenticationResponse;
 import by.vadarod.E_Library.jwt.model.UserAuthenticationRequest;
+import by.vadarod.E_Library.jwt.service.SignService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
